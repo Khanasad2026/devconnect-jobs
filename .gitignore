@@ -1,0 +1,34 @@
+# Maven build output
+/backend/target/
+*.class
+
+# Log files
+*.log
+
+# Package file outputs
+*.jar
+*.war
+*.ear
+
+# Crash dumps
+*.csd
+*.pid
+*.hprof
+
+# IDE settings
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Frontend Node modules and builds (when we create frontend later)
+/frontend/node_modules/
+/frontend/dist/
+/frontend/build/
+.env
+.env.local

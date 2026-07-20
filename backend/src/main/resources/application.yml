@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: professional-network
+
+  # Database configuration
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/network_db}
+    username: ${DATABASE_USERNAME:postgres}
+    password: ${DATABASE_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+
+  # JPA & Hibernate configuration
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  # File upload configuration
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+
+# JWT Configuration values
+jwt:
+  # Secret key used for signing JWTs (must be at least 256 bits/32 chars)
+  secret: ${JWT_SECRET:9a4f2c8d3b7a1e5f8c6d4e2b0a1f3e5d7c9b0a2f4e6d8c0b2a4f6e8d0c2b4a6f}
+  # Expiration time in milliseconds (86400000 ms = 24 hours)
+  expiration: 86400000
+
+logging:
+  level:
+    org.springframework.web: INFO
+    org.hibernate.SQL: DEBUG
