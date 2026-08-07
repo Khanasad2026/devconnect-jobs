@@ -9,6 +9,7 @@ import java.util.UUID;
 public class JobApplication {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -38,7 +39,6 @@ public class JobApplication {
 
     // Parameterized constructor
     public JobApplication(User candidate, Job job, String coverLetter, String resumeUrl) {
-        this.id = UUID.randomUUID();
         this.candidate = candidate;
         this.job = job;
         this.coverLetter = coverLetter;
