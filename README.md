@@ -58,8 +58,8 @@ graph TD
 - Password hashing with **BCryptPasswordEncoder**.
 - Stateless session management with custom CORS policy.
 
-### 4. 🎨 Wellfound / Naukri Style Light Mode UI
-- Responsive, high-contrast dashboard for both Candidates and Recruiters.
+### 4. 🎨 Modern High-Contrast Light Mode UI
+- Responsive dashboard built for both Candidates and Recruiters.
 - **Candidate View**: AI recommendations feed, job exploration filters by domain role (`SDE`, `Data Analyst`, `Product Manager`, `DevOps`), and live application tracking.
 - **Recruiter View**: Published listings manager, applicant reviewer, cover note reader, resume inspector, and hiring stage status updater (`APPLIED` → `SHORTLISTED` → `INTERVIEWING` → `OFFERED` → `REJECTED`).
 
@@ -126,9 +126,9 @@ graph TD
 cd backend
 
 # Set Database Environment Variables
-export DATABASE_URL="jdbc:postgresql://ep-solitary-tooth-ausnk8c7.c-10.us-east-1.aws.neon.tech/neondb?sslmode=require"
-export DATABASE_USERNAME="neondb_owner"
-export DATABASE_PASSWORD="npg_Ap7fowSdjFk1"
+export DATABASE_URL="jdbc:postgresql://<your_postgres_host>/neondb?sslmode=require"
+export DATABASE_USERNAME="<your_db_username>"
+export DATABASE_PASSWORD="<your_db_password>"
 
 # Run Spring Boot Server
 ./mvnw spring-boot:run
