@@ -43,9 +43,6 @@ public class Profile {
         this.branch = branch;
         this.cgpa = cgpa;
         this.user = user;
-        if (user != null) {
-            this.id = user.getId();
-        }
     }
 
     // Getters and Setters
@@ -127,8 +124,5 @@ public class Profile {
 
     public void setUser(User user) {
         this.user = user;
-        if (user != null) {
-            this.id = user.getId();
-        }
     }
 }

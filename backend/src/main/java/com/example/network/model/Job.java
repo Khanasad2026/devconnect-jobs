@@ -9,6 +9,7 @@ import java.util.UUID;
 public class Job {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(nullable = false)
@@ -46,7 +47,6 @@ public class Job {
 
     // Parameterized constructor
     public Job(String title, String description, String location, String salary, Integer experienceRequired, JobRole jobRole, JobType jobType, User recruiter) {
-        this.id = UUID.randomUUID();
         this.title = title;
         this.description = description;
         this.location = location;

@@ -9,6 +9,7 @@ import java.util.UUID;
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(unique = true, nullable = false)
@@ -33,7 +34,6 @@ public class User {
 
     // Constructor to easily create new users
     public User(String email, String password, UserRole role) {
-        this.id = UUID.randomUUID();
         this.email = email;
         this.password = password;
         this.role = role;
