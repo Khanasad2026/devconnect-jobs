@@ -56,4 +56,14 @@ public class JobController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    // GET /api/jobs/recommendations?candidateId=UUID - Skill-based job recommendations
+    @GetMapping("/recommendations")
+    public ResponseEntity<?> getRecommendedJobs(@RequestParam UUID candidateId) {
+        try {
+            return ResponseEntity.ok(jobService.getRecommendedJobs(candidateId));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

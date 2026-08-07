@@ -14,15 +14,21 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import com.example.network.dto.JobMatchResponse;
+import com.example.network.model.Profile;
+import com.example.network.repository.ProfileRepository;
+
 @Service
 public class JobService {
 
     private final JobRepository jobRepository;
     private final UserRepository userRepository;
+    private final ProfileRepository profileRepository;
 
-    public JobService(JobRepository jobRepository, UserRepository userRepository) {
+    public JobService(JobRepository jobRepository, UserRepository userRepository, ProfileRepository profileRepository) {
         this.jobRepository = jobRepository;
         this.userRepository = userRepository;
+        this.profileRepository = profileRepository;
     }
 
     // Create a new job posting (Recruiter only)
@@ -94,5 +100,57 @@ public class JobService {
                 job.getRecruiter().getId(),
                 job.getCreatedAt()
         );
+    }
+
+    // Skill-based matchmaking algorithm
+    public List<JobMatchResponse> getRecommendedJobs(UUID candidateId) {
+        Profile profile = profileRepository.findById(candidateId)
+                .orElseThrow(() -> new IllegalArgumentException("Profile not found"));
+
+        String candidateSkillsStr = profile.getSkills();
+        if (candidateSkillsStr == null || candidateSkillsStr.trim().isEmpty()) {
+            return jobRepository.findAll().stream()
+                    .map(job -> new JobMatchResponse(mapToJobResponse(job), 0, List.of()))
+                    .collect(Collectors.toList());
+        }
+
+        java.util.Set<String> candidateSkills = java.util.Arrays.stream(candidateSkillsStr.split(","))
+                .map(String::trim)
+                .map(String::toLowerCase)
+                .filter(s -> !s.isEmpty())
+                .collect(Collectors.toSet());
+
+        List<Job> allJobs = jobRepository.findAll();
+        List<JobMatchResponse> recommendations = new java.util.ArrayList<>();
+
+        for (Job job : allJobs) {
+            java.util.List<String> matchedSkills = new java.util.ArrayList<>();
+            String textToSearch = (job.getTitle() + " " + job.getDescription()).toLowerCase();
+
+            for (String skill : candidateSkills) {
+                if (textToSearch.contains(skill)) {
+                    matchedSkills.add(skill);
+                }
+            }
+
+            int matchPercentage = 0;
+            if (!candidateSkills.isEmpty()) {
+                matchPercentage = (int) Math.round(((double) matchedSkills.size() / candidateSkills.size()) * 100);
+            }
+
+            java.util.List<String> matchedSkillsOriginalCasing = java.util.Arrays.stream(candidateSkillsStr.split(","))
+                    .map(String::trim)
+                    .filter(skill -> matchedSkills.contains(skill.toLowerCase()))
+                    .collect(Collectors.toList());
+
+            recommendations.add(new JobMatchResponse(
+                    mapToJobResponse(job),
+                    matchPercentage,
+                    matchedSkillsOriginalCasing
+            ));
+        }
+
+        recommendations.sort((a, b) -> Integer.compare(b.matchPercentage(), a.matchPercentage()));
+        return recommendations;
     }
 }
