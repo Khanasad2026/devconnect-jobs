@@ -1,4 +1,6 @@
-const API_BASE_URL = 'http://localhost:8080/api';
+const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? 'http://localhost:8080/api'
+  : (import.meta.env.VITE_API_BASE_URL || 'https://devconnect-backend.onrender.com/api');
 
 // Helper to get auth token from localStorage
 export const getAuthToken = () => localStorage.getItem('token');
