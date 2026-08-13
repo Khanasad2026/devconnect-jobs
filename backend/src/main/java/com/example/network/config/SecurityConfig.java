@@ -42,6 +42,7 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll() // Public paths for register & login
+                .requestMatchers("/", "/index.html", "/assets/**", "/*.svg", "/*.ico", "/*.json", "/*.js", "/*.css").permitAll() // Public static frontend assets
                 .anyRequest().authenticated() // Authenticated paths for everything else
             );
 
